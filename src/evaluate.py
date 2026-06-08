@@ -9,7 +9,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.dataset import get_dataloaders
 from src.model import get_model
-from config import DATA_DIR, BATCH_SIZE, MODEL_SAVE_PATH
+from config import DATA_DIR, BATCH_SIZE, MODEL_SAVE_PATH, ARCHITECTURE
 
 
 def evaluate(model, loader, device, classes):
@@ -40,8 +40,8 @@ def plot_confusion_matrix(labels, preds, classes):
     plt.xticks(rotation=45, ha="right")
     plt.yticks(rotation=0)
     plt.tight_layout()
-    plt.savefig("models/confusion_matrix.png", dpi=150)
-    print("Confusion matrix saved to models/confusion_matrix.png")
+    plt.savefig("models/confusion_matrix2.png", dpi=150)  # Change name when evaluating new models
+    print("Confusion matrix saved to models/confusion_matrix2.png")  # Change name when evaluating new models
 
 
 def main():
@@ -50,7 +50,7 @@ def main():
 
     _, _, test_loader, classes = get_dataloaders(DATA_DIR, BATCH_SIZE)
 
-    model = get_model(num_classes=len(classes)).to(device)
+    model = get_model(num_classes=len(classes), architecture=ARCHITECTURE).to(device)
     model.load_state_dict(torch.load(MODEL_SAVE_PATH, map_location=device))
     print("Model loaded!")
 

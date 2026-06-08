@@ -9,7 +9,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.dataset import get_dataloaders
 from src.model import get_model
-from config import DATA_DIR, BATCH_SIZE, NUM_EPOCHS, LEARNING_RATE, MODEL_SAVE_PATH
+from config import DATA_DIR, BATCH_SIZE, NUM_EPOCHS, LEARNING_RATE, MODEL_SAVE_PATH, ARCHITECTURE
 
 
 def train_one_epoch(model, loader, criterion, optimizer, device):
@@ -63,8 +63,8 @@ def plot_history(train_losses, val_losses, train_accs, val_accs):
     ax2.legend()
 
     plt.tight_layout()
-    plt.savefig("models/training_history.png")
-    print("Training history saved to models/training_history.png")
+    plt.savefig("models/training_history.png") # Change name when training new models
+    print("Training history saved to models/training_history.png") # Change name when training new models
 
 
 def main():
@@ -74,7 +74,7 @@ def main():
     train_loader, val_loader, test_loader, classes = get_dataloaders(DATA_DIR, BATCH_SIZE)
     print(f"Classes ({len(classes)}): {classes}")
 
-    model = get_model(num_classes=len(classes)).to(device)
+    model = get_model(num_classes=len(classes), architecture=ARCHITECTURE).to(device) # Train both models
     criterion = nn.CrossEntropyLoss() # For multi-class classifcation this is the standard approach (we have 15 classes)
     optimizer = Adam(model.parameters(), lr=LEARNING_RATE) # Adam converges faster and is thus the best approach for transfer-learning
 

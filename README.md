@@ -2,7 +2,7 @@
 
 A computer vision project for automated plant disease detection using transfer learning with EfficientNet-B0 and PyTorch.
 
-Trained on the [PlantVillage dataset](https://www.kaggle.com/datasets/emmarex/plantdisease), 
+Trained on the [PlantVillage dataset](https://www.kaggle.com/datasets/emmarex/plantdisease)(Hughes & Salathé, 2015), 
 which contains 41,000+ labeled images across 15 classes of healthy and diseased plant leaves 
 (pepper, potato, and tomato).
 
@@ -47,8 +47,8 @@ streamlit run app.py
 
 ```bash
 # Clone the repo
-git clone https://github.com/Arashi20/plantdisease-cv.git
-cd plantdisease-cv
+git clone https://github.com/Arashi20/PlantDisease_Classification.git
+cd PlantDisease_Classification
 
 # Create virtual environment
 python -m venv venv
@@ -152,14 +152,30 @@ image classification tasks.
 The confusion matrix shows near-perfect diagonal alignment across all 15 classes. 
 Total misclassifications on the test set: fewer than 5 out of 3,095 samples.
 
-### Training History
-
-![Training History](models/training_history.png)
-
-Validation accuracy reached 98.5% after epoch 1 and 99.6% after epoch 3, with no 
-signs of overfitting — validation loss consistently decreased alongside training loss.
-
 ---
+
+## Model Comparison
+
+To evaluate the accuracy-efficiency tradeoff, EfficientNet-B0 was benchmarked against 
+MobileNetV3-Small — a lightweight architecture designed for edge deployment.
+
+| | EfficientNet-B0 | MobileNetV3-Small |
+|---|---|---|
+| Parameters | 4.0M | 1.5M |
+| Test Accuracy | 99.5% | 98.2% |
+| Misclassifications | <5 / 3,095 | ~35 / 3,095 |
+| Val Accuracy (Epoch 1) | 98.5% | 96.4% |
+
+![Model Comparison](models/model_comparison.png)
+
+**Key takeaway:** MobileNetV3-Small achieves 98.2% accuracy with 62% fewer parameters. 
+EfficientNet-B0 converges faster and handles visually similar diseases more accurately — 
+particularly `Tomato__Target_Spot` vs `Tomato_Bacterial_spot`. For edge deployment 
+scenarios (greenhouse cameras, mobile devices), MobileNetV3-Small offers a compelling 
+tradeoff. For high-precision diagnosis, EfficientNet-B0 remains the stronger choice.
+
+![Confusion Matrix Lightweight](models/confusion_matrix2.png)
+
 
 ## Model Interpretability: Grad-CAM
 
